@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: AWS
     steps:
     - uses: actions/checkout@v3
     - uses: jakejarvis/s3-sync-action@master
