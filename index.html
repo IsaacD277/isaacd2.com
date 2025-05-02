@@ -6,7 +6,7 @@
   <title>Just Build Simple</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="https://s3.us-east-1.amazonaws.com/isaacd2.com/Assets/D2 Logo.png">
+
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-55MZGEHKJ2"></script>
@@ -24,9 +24,8 @@
   </header>
 
   <section class="hero">
-    <h1>Just Build <span class="highlight">Simple</span></h1>
-    <h2>Building stuff is hard. Overengineering makes it harder.</h2>
-    <!-- <p>Join the newsletter for practical insights to help you simplify, stay inspired, and keep building.</p> -->
+    <h1><span class="highlight">Fickle</span> Friday</h1>
+    <h2>the newsletter about my tinkerings</h2>
     <form class="subscribe-form">
       <div class="subscribe-container">
         <input type="email" id="emailAddress" placeholder="Email Address" required>
@@ -46,22 +45,22 @@
           <span class="circle-text">🔍</span>
         </div>        
         <!-- <img src="https://img.icons8.com/ios-filled/50/search--v1.png" alt="Magnifying glass icon"/> -->
-        <h3>Builds & Breakthroughs</h3>
-        <p>Both wins and bugs included, because that's how real development works.</p>
+        <h3>Coding</h3>
+        <p>You like coding? Me too. Let's learn more together!</p>
       </div>
       <div class="feature">
         <div class="circle">
           <span class="circle-text">💡</span>
         </div>   
-        <h3>Real tips and insights</h3>
-        <p>Practical advice from current projects that you can apply right away.</p>
+        <h3>Untapped Brilliance</h3>
+        <p>Okay, so brillance may be a little strong. But I've got a couple fun ideas to share with you.</p>
       </div>
       <div class="feature">
         <div class="circle">
           <span class="circle-text">🛠️</span>
         </div>   
-        <h3>Resources and tools</h3>
-        <p>Tools and resources that actually helped, not just theoretical suggestions.</p>
+        <h3>Experiments</h3>
+        <p>I'm notorious for starting random side projects. Join the newsletter to hear about them first!</p>
       </div>
     </div>
   </section>
@@ -69,14 +68,14 @@
   <section class="mission">
     <div class="mission-card">
       <h1>The Mission</h1>
-      <p>Just Build <span class="highlight">Simple</span> exists as a reminder to keep things <span class="highlight">simple</span>. Through honest updates, practical tips, and real-world projects, this newsletter helps developers stay inspired, avoid overcomplication, and just keep building. One <span class="highlight">simple</span> step at a time.</p>
+      <p><span class="highlight">Fickle</span> Friday exists as a reminder to keep trying things. Experimenting with your ideas, can have some fun outcomes. You never know when you are going to use part of you weekend project as part of a finished product.</p>
     </div>
   </section>
 
   <section class="about">
     <h1>About</h1>
-    <p>I’m Isaac D2, and I’m sharing what I learn as I build my projects. That includes both mistakes and wins.</p>
-    <p>If you want to grow alongside me as a developer while learning to keep things <span class="highlight">simple</span>, this is for you.</p>
+    <p>I’m Isaac D2, and I’m sharing what I learn as I experiment on different projects.</p>
+    <p>If you want to grow alongside me as a developer and hear about fun little projects that will likely never ship, this is for you.</p>
     <form class="subscribe-form">
       <div class="subscribe-container">
         <input type="email" id="emailAddress" placeholder="Email Address" required>
@@ -118,7 +117,7 @@
 
       // Schedule success message
       successTimer = setTimeout(() => {
-        trustText.textContent = "Thanks for helping keep things simple. You've been subscribed.";
+        trustText.textContent = "Thanks for helping boost my ego. You've been subscribed.";
         trustText.style.color = "#277A7D";
         trustText.style.opacity = "1"; // Fade in
       }, 500);
@@ -137,7 +136,7 @@
       form.reset();
 
       try {
-        const response = await fetch("https://api.isaacd2.com/subscribe", {
+        const response = await fetch("https://api.isaacd2.com/newsletter/subscribe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

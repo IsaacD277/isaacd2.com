@@ -61,6 +61,11 @@ header {
   color: #E17163;
 }
 
+.hero .subscribe-form {
+  width: 425px;
+  max-width: 100%;
+}
+
 .subscribe-form {
   display: flex;
   justify-content: center;
@@ -89,7 +94,7 @@ header {
   justify-content: center;
   align-items: center;
   width: 100%; /* Changed from 440px to be fully responsive */
-  max-width: 440px; /* Added max-width to maintain original constraint */
+  max-width: 425px; /* Added max-width to maintain original constraint */
   flex-wrap: nowrap; /* Changed from wrap to nowrap to prevent wrapping */
 }
 
