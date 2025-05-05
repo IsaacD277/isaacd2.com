@@ -224,6 +224,13 @@ header {
   font-weight: 700;
 }
 
+.mission h2 {
+  color: #2D3142;
+  font-size: 20px; /* Smaller for mobile */
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
 .mission p {
   max-width: 100%; /* Full width on mobile */
   font-size: 16px; /* Smaller for mobile */
