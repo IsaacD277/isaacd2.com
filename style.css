@@ -278,6 +278,15 @@ header {
   opacity: 0.8;
 }
 
+.gray-link {
+  color: gray;
+  text-decoration: none;
+}
+
+.gray-link:hover {
+  text-decoration: underline;
+}
+
 /* Mobile-Specific Media Query */
 @media (max-width: 768px) {
 .hero {
