@@ -93,65 +93,83 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector(".subscribe-form");
-    const emailInput = form.querySelector('input[type="email"]');
-    const trustText = document.querySelector(".trust-text");
+    const forms = document.querySelectorAll(".subscribe-form");
+    const trustTexts = document.querySelectorAll(".trust-text");
 
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
+    forms.forEach((form, idx) => {
+      const emailInput = form.querySelector('input[type="email"]');
+      const trustText = trustTexts[idx];
 
-      const email = emailInput.value;
-      if (!email) return;
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-      const originalText = trustText.textContent;
-      const originalColor = trustText.style.color || getComputedStyle(trustText).color;
+        const email = emailInput.value;
+        if (!email) return;
 
-      // Set up transition for smooth text and color changes
-      trustText.style.transition = "opacity 0.5s ease, color 0.5s ease";
-      trustText.style.opacity = "0"; // Fade out
+        const originalText = trustText.textContent;
+        const originalColor = trustText.style.color || getComputedStyle(trustText).color;
 
-      // Store timers so we can cancel them if needed
-      let successTimer, revertTimer;
-
-      // Schedule success message
-      successTimer = setTimeout(() => {
-        trustText.textContent = "Thanks for helping boost my ego. You've been subscribed.";
-        trustText.style.color = "#277A7D";
-        trustText.style.opacity = "1"; // Fade in
-      }, 500);
-
-      // Schedule revert to original text after 4 seconds
-      revertTimer = setTimeout(() => {
+        trustText.style.transition = "opacity 0.5s ease, color 0.5s ease";
         trustText.style.opacity = "0";
-        setTimeout(() => {
-          trustText.textContent = originalText;
-          trustText.style.color = originalColor;
+
+        let successTimer, revertTimer;
+
+        successTimer = setTimeout(() => {
+          trustText.textContent = "Thanks for helping boost my ego. You've been subscribed.";
+          trustText.style.color = "#277A7D";
           trustText.style.opacity = "1";
         }, 500);
-      }, 4000);
 
-      // Reset form immediately
-      form.reset();
+        revertTimer = setTimeout(() => {
+          trustText.style.opacity = "0";
+          setTimeout(() => {
+            trustText.textContent = originalText;
+            trustText.style.color = originalColor;
+            trustText.style.opacity = "1";
+          }, 500);
+        }, 4000);
 
-      try {
-        const response = await fetch("https://api.isaacd2.com/newsletter/subscribe", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ "emailAddress": email }),
-        });
+        form.reset();
 
-        if (response.status !== 201) {
-          // Clear scheduled success and revert timers
+        try {
+          const response = await fetch("https://api.isaacd2.com/newsletter/subscribe", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ "emailAddress": email }),
+          });
+
+          if (response.status !== 201) {
+            clearTimeout(successTimer);
+            clearTimeout(revertTimer);
+
+            trustText.style.opacity = "0";
+            setTimeout(() => {
+              trustText.textContent = "Subscription failed. Please try again.";
+              trustText.style.color = "#E17163";
+              trustText.style.opacity = "1";
+            }, 500);
+
+            setTimeout(() => {
+              trustText.style.opacity = "0";
+              setTimeout(() => {
+                trustText.textContent = originalText;
+                trustText.style.color = originalColor;
+                trustText.style.opacity = "1";
+              }, 500);
+            }, 6000);
+
+            console.warn("Subscription failed:", response.statusText);
+          }
+        } catch (error) {
           clearTimeout(successTimer);
           clearTimeout(revertTimer);
 
-          // Show error message with fade
           trustText.style.opacity = "0";
           setTimeout(() => {
-            trustText.textContent = "Subscription failed. Please try again.";
-            trustText.style.color = "#E17163"; // Use your highlight color instead of plain red
+            trustText.textContent = "Your subscription failed. Please try again.";
+            trustText.style.color = "#E17163";
             trustText.style.opacity = "1";
           }, 500);
 
@@ -162,34 +180,11 @@
               trustText.style.color = originalColor;
               trustText.style.opacity = "1";
             }, 500);
-          }, 6000); // Show error for 6 seconds
+          }, 6000);
 
-          console.warn("Subscription failed:", response.statusText);
+          console.error("Error:", error);
         }
-      } catch (error) {
-        // Clear scheduled success and revert timers
-        clearTimeout(successTimer);
-        clearTimeout(revertTimer);
-
-        // Show error message with fade
-        trustText.style.opacity = "0";
-        setTimeout(() => {
-          trustText.textContent = "Your subscription failed. Please try again.";
-          trustText.style.color = "#E17163"; // Use your highlight color
-          trustText.style.opacity = "1";
-        }, 500);
-
-        setTimeout(() => {
-          trustText.style.opacity = "0";
-          setTimeout(() => {
-            trustText.textContent = originalText;
-            trustText.style.color = originalColor;
-            trustText.style.opacity = "1";
-          }, 500);
-        }, 6000); // Show error for 6 seconds
-
-        console.error("Error:", error);
-      }
+      });
     });
   });
   </script>
