@@ -16,7 +16,7 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensures all branch history is fetched
+          fetch-depth: 0
 
       - name: Set up Git user
         run: |
@@ -29,12 +29,15 @@ jobs:
       - name: Switch to Development Branch
         run: |
           git checkout development
-          git reset --hard origin/development  # Ensures it's an exact match with remote
+          git reset --hard origin/development
 
       - name: Merge Main into Development
         run: |
           git checkout development
-          git merge main --allow-unrelated-histories  # This will force the merge
+          git merge main --allow-unrelated-histories
 
       - name: Push Changes to Development
-        run: git push origin development --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
+        run: |
+          git push https://$GITHUB_TOKEN@github.com/IsaacD277/isaacd2.com.git development --force
