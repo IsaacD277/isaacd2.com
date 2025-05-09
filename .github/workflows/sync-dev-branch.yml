@@ -8,12 +8,15 @@ on:
 
 jobs:
   sync-development:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'development'
-
+    if: github.event.pull_request.merged == true && 
+        github.event.pull_request.base.ref == 'main' && 
+        github.event.pull_request.head.ref == 'development'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Ensures all branch history is fetched
 
       - name: Set up Git user
         run: |
@@ -23,10 +26,15 @@ jobs:
       - name: Fetch all branches
         run: git fetch --all
 
-      - name: Merge main into development
+      - name: Switch to Development Branch
         run: |
           git checkout development
-          git merge main
+          git reset --hard origin/development  # Ensures it's an exact match with remote
 
-      - name: Push changes to development
-        run: git push origin development
+      - name: Merge Main into Development
+        run: |
+          git checkout development
+          git merge main --allow-unrelated-histories  # This will force the merge
+
+      - name: Push Changes to Development
+        run: git push origin development --force
