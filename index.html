@@ -73,17 +73,8 @@
 
   <section class="about">
     <h1>About</h1>
-    <p>I’m Isaac D2, and I’m sharing what I learn as I experiment on different projects.</p>
+    <p>Hi! I’m Isaac D2, and I’m sharing what I learn as I experiment on different projects.</p>
     <p>If you want to grow alongside me as a developer and hear about fun little projects that will likely never ship, this is for you.</p>
-    <form class="subscribe-form">
-      <div class="subscribe-container">
-        <input type="email" id="emailAddress" placeholder="Email Address" required>
-        <button type="submit">Subscribe</button>
-      </div>
-    </form>
-    <div class="trust-text">
-      <p>I'll only send emails I'd want to read</p>
-    </div>
   </section>
 
   <footer class="site-footer">
@@ -146,7 +137,11 @@
 
             trustText.style.opacity = "0";
             setTimeout(() => {
-              trustText.textContent = "Subscription failed. Please try again.";
+              if (response.status === 400) {
+                trustText.textContent = "You must be really interested in my newsletter. You've already subscribed.";
+              } else {
+                trustText.textContent = "Subscription failed. Please try again.";
+              }
               trustText.style.color = "#E17163";
               trustText.style.opacity = "1";
             }, 500);
