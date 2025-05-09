@@ -38,6 +38,7 @@ jobs:
 
       - name: Push Changes to Development
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
+          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
         run: |
-          git push https://$GITHUB_TOKEN@github.com/IsaacD277/isaacd2.com.git development --force
+          git remote set-url origin https://$ACTIONS_PAT@github.com/IsaacD277/isaacd2.com.git
+          git push origin development --force
