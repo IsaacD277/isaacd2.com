@@ -86,27 +86,28 @@ header {
 
 .subscribe-container {
   background: #edf1f0;
-  padding: 0.5rem; /* Reduced from 1rem */
+  padding: 0.5rem;
   border-radius: 9999px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.06);
   display: flex;
   gap: 0.5rem;
   justify-content: center;
   align-items: center;
-  width: 100%; /* Changed from 440px to be fully responsive */
-  max-width: 425px; /* Added max-width to maintain original constraint */
-  flex-wrap: nowrap; /* Changed from wrap to nowrap to prevent wrapping */
+  width: 100%;
+  max-width: 480px;
+  flex-wrap: nowrap;
 }
 
 
-.subscribe-container input[type="email"] {
+.subscribe-container input[type="email"],
+.subscribe-container input[type="text"] {
   border: none;
   background: transparent;
-  padding: 8px 12px; /* Reduced from 10px 15px */
-  font-size: 14px; /* Reduced from 16px */
+  padding: 8px 12px;
+  font-size: 14px;
   outline: none;
-  flex: 1; /* Changed to flex: 1 for proportional scaling */
-  min-width: 0; /* Added to prevent overflow */
+  flex: 1;
+  min-width: 0;
 }
 
 .subscribe-container button {
@@ -289,80 +290,81 @@ header {
 
 /* Mobile-Specific Media Query */
 @media (max-width: 768px) {
-.hero {
-  min-height: 60vh; /* Reduced height for mobile */
-}
-.hero h1 {
-  font-size: 28px; /* Further reduced for small screens */
-}
+  .hero {
+    min-height: 60vh; /* Reduced height for mobile */
+  }
+  .hero h1 {
+    font-size: 28px; /* Further reduced for small screens */
+  }
 
-.hero h2 {
-  font-size: 14px;
-}
+  .hero h2 {
+    font-size: 14px;
+  }
 
-.subscribe-container {
-  padding: 0.5rem;
-  gap: 0.25rem; /* Reduced from 0.5rem for tighter fit */
-  max-width: 100%; /* Changed to fully responsive */
-}
+  .subscribe-container {
+    padding: 0.5rem;
+    gap: 0.25rem;
+    max-width: 100%;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  }
+  
+  .subscribe-container input[type="email"],
+  .subscribe-container input[type="text"] {
+    padding: 6px 10px;
+    font-size: 12px;
+    flex: 1 0 calc(50% - 10px); /* Allow inputs to take full width on small screens */
+  }
+  
+  .subscribe-container button {
+    flex: 1 0 100%; /* Button takes full width on very small screens */
+    margin-top: 0.25rem;
+  }
 
-.subscribe-container input[type="email"] {
-  padding: 6px 10px; /* Further reduced padding */
-  font-size: 12px; /* Reduced from 14px */
-  flex: 2; /* Adjusted to give input more space */
-}
+  .feature-grid {
+    flex-direction: column; /* Stack features vertically */
+    align-items: center;
+  }
 
-.subscribe-container button {
-  padding: 6px 12px; /* Reduced padding, still touch-friendly */
-  font-size: 12px; /* Reduced from 14px */
-  flex: 1; /* Added to control button width */
-  min-width: 80px; /* Added for minimum touch target size */
-}
+  .feature {
+    width: 90%; /* Slightly less than full width for padding */
+  }
 
-.feature-grid {
-  flex-direction: column; /* Stack features vertically */
-  align-items: center;
-}
+  .mission-card {
+    padding: 15px;
+    max-width: 90%;
+  }
 
-.feature {
-  width: 90%; /* Slightly less than full width for padding */
-}
-
-.mission-card {
-  padding: 15px;
-  max-width: 90%;
-}
-
-.about p {
-  max-width: 100%; /* Full width on mobile */
-}
+  .about p {
+    max-width: 100%; /* Full width on mobile */
+  }
 }
 
 @media (max-width: 480px) {
-.hero h1 {
-  font-size: 24px; /* Even smaller for very small screens */
-}
+  .hero h1 {
+    font-size: 24px; /* Even smaller for very small screens */
+  }
 
-.hero h2 {
-  font-size: 12px;
-}
+  .hero h2 {
+    font-size: 12px;
+  }
 
-.subscribe-container {
-  padding: 0.4rem; /* Slightly reduced from 0.5rem */
-}
+  .subscribe-container {
+    padding: 0.4rem; /* Slightly reduced from 0.5rem */
+  }
 
-.subscribe-container input[type="email"] {
-  font-size: 11px; /* Reduced from 12px */
-  padding: 5px 8px; /* Further reduced padding */
-}
+  .subscribe-container input[type="email"],
+  .subscribe-container input[type="text"] {
+    flex: 1 0 100%; /* Each input takes full width on very small screens */
+    margin-bottom: 0.25rem;
+  }
 
-.subscribe-container button {
-  font-size: 11px; /* Reduced from 12px */
-  padding: 5px 10px; /* Further reduced padding */
-  min-width: 70px; /* Reduced from 80px, still usable */
-}
+  .subscribe-container button {
+    font-size: 11px; /* Reduced from 12px */
+    padding: 5px 10px; /* Further reduced padding */
+    min-width: 70px; /* Reduced from 80px, still usable */
+  }
 
-.features h2, .mission h1, .about h1 {
-  font-size: 20px;
-}
+  .features h2, .mission h1, .about h1 {
+    font-size: 20px;
+  }
 }
