@@ -85,43 +85,44 @@ header {
 }
 
 .subscribe-container {
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  gap: 0.5rem;
   background: #edf1f0;
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 9999px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
   max-width: 480px;
-  flex-wrap: nowrap;
+  width: 100%;
 }
-
 
 .subscribe-container input[type="email"],
 .subscribe-container input[type="text"] {
   border: none;
-  background: transparent;
-  padding: 8px 12px;
+  background: white;
+  padding: 12px;
   font-size: 14px;
   outline: none;
-  flex: 1;
-  min-width: 0;
+  border-radius: 9999px;
+  margin-bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .subscribe-container button {
   background-color: #E17163;
   border: none;
   color: white;
-  padding: 10px 16px; /* Adjusted from 10px 18px */
-  font-size: 14px; /* Reduced from 16px */
+  padding: 12px;
+  font-size: 16px;
   border-radius: 9999px;
   cursor: pointer;
+  width: 100%; /* Full width */
   transition: all 0.2s ease;
   animation: pulse 10s infinite;
   animation-delay: 2s;
   --pulse-color: #E1716360;
+  margin-top: 0.25rem;
 }
 
 @keyframes pulse {
