@@ -27,11 +27,12 @@
     <h1><span class="highlight">Fickle</span> Friday</h1>
     <h2>the newsletter about my tinkerings</h2>
     <form class="subscribe-form">
-      <div class="subscribe-container">
-        <input type="email" id="emailAddress" placeholder="Email Address" required>
-        <button type="submit">Subscribe</button>
-      </div>
-    </form>
+  <div class="subscribe-container">
+    <input type="text" id="firstName" placeholder="First Name" autocomplete="given-name">
+    <input type="email" id="emailAddress" placeholder="Email Address" required autocomplete="email">
+    <button type="submit">Subscribe</button>
+  </div>
+</form>
     <div class="trust-text">
       <p>I'll only send emails I'd want to read</p>
     </div>
@@ -89,12 +90,14 @@
 
     forms.forEach((form, idx) => {
       const emailInput = form.querySelector('input[type="email"]');
+      const firstNameInput = form.querySelector('input[type="text"]');
       const trustText = trustTexts[idx];
 
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const email = emailInput.value;
+        const firstName = firstNameInput.value;
         if (!email) return;
 
         const originalText = trustText.textContent;
@@ -128,7 +131,9 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ "emailAddress": email }),
+            body: JSON.stringify({ 
+              "emailAddress": email,
+              "firstName": firstName,}),
           });
 
           if (response.status !== 201) {
