@@ -88,9 +88,7 @@ header {
   display: flex;
   flex-direction: column; /* Stack vertically */
   gap: 0.5rem;
-  background: #edf1f0;
   padding: 1rem;
-  border-radius: 9999px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.06);
   max-width: 480px;
   width: 100%;
