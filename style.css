@@ -87,9 +87,8 @@ header {
 .subscribe-container {
   display: flex;
   flex-direction: column; /* Stack vertically */
-  gap: 0.5rem;
+  gap: 0.5rem;;
   padding: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
   max-width: 480px;
   width: 100%;
 }
@@ -97,7 +96,7 @@ header {
 .subscribe-container input[type="email"],
 .subscribe-container input[type="text"] {
   border: none;
-  background: white;
+  background: #edf1f0;
   padding: 12px;
   font-size: 14px;
   outline: none;
