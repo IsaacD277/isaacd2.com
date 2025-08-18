@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Newsletter Hello API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        #result { margin-top: 1em; padding: 1em; border: 1px solid #ccc; background: #f9f9f9; }
+        button { padding: 0.5em 1em; font-size: 1em; }
+    </style>
+</head>
+<body>
+    <h1>Test Newsletter Hello API</h1>
+    <button id="submitBtn">Send GET Request</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Loading...';
+            fetch('https://api.isaacd2.com/development/newsletter/hello')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(data => {
+                    resultDiv.textContent = data;
+                })
+                .catch(error => {
+                    resultDiv.textContent = 'Error: ' + error.message;
+                });
+        });
+    </script>
+</body>
+</html>
