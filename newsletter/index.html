@@ -11,14 +11,14 @@
 </head>
 <body>
     <h1>Test Newsletter Hello API</h1>
-    <button id="submitBtn">Send an Authorized GET Request</button>
+    <button id="submitBtn">Send Authorized GET Request</button>
     <div id="result"></div>
 
     <script>
         document.getElementById('submitBtn').addEventListener('click', function() {
             const resultDiv = document.getElementById('result');
             resultDiv.textContent = 'Loading...';
-            fetch('https://4yyvatwani.execute-api.us-east-1.amazonaws.com/test')
+            fetch('https://4yyvatwani.execute-api.us-east-1.amazonaws.com/development/test')
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.text();
