@@ -14,6 +14,55 @@
     <button id="submitBtn">Send Authorized GET Request</button>
     <div id="result"></div>
 
+    <!-- OIDC Sign-in/out UI -->
+    <div style="margin-top:2em;">
+        <button id="signIn">Sign In</button>
+        <button id="signOut">Log out</button>
+    </div>
+    <div style="margin-top:1em;">
+        Hello: <pre id="email"></pre>
+        Access token: <pre id="access-token"></pre>
+        ID token: <pre id="id-token"></pre>
+        Refresh token: <pre id="refresh-token"></pre>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/oidc-client-ts@2/dist/oidc-client-ts.min.js"></script>
+    <script>
+        // OIDC config
+        const cognitoAuthConfig = {
+            authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_KSaXwW0Ls",
+            client_id: "53lbka1er1uood579akb0at7c2",
+            redirect_uri: "https://dev.isaacd2.com/newsletter",
+            response_type: "code",
+            scope: "email openid phone"
+        };
+        // Create UserManager
+        const userManager = new window.Oidc.UserManager(cognitoAuthConfig);
+
+        // Sign-in button handler
+        document.getElementById("signIn").addEventListener("click", async () => {
+            await userManager.signinRedirect();
+        });
+
+        // Callback handler for OIDC redirect
+        userManager.signinCallback().then(function (user) {
+            document.getElementById("email").textContent = user.profile?.email || '';
+            document.getElementById("access-token").textContent = user.access_token || '';
+            document.getElementById("id-token").textContent = user.id_token || '';
+            document.getElementById("refresh-token").textContent = user.refresh_token || '';
+        }).catch(() => {
+            // Not a callback, or not signed in
+        });
+
+        // Sign-out button handler
+        document.getElementById("signOut").addEventListener("click", async () => {
+            const clientId = "53lbka1er1uood579akb0at7c2";
+            const logoutUri = "https://dev.isaacd2.com/newsletter";
+            const cognitoDomain = "https://us-east-1ksaxww0ls.auth.us-east-1.amazoncognito.com";
+            window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+        });
+    </script>
+
     <script>
         document.getElementById('submitBtn').addEventListener('click', function() {
             const resultDiv = document.getElementById('result');
