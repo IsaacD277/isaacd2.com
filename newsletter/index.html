@@ -18,7 +18,7 @@
         document.getElementById('submitBtn').addEventListener('click', function() {
             const resultDiv = document.getElementById('result');
             resultDiv.textContent = 'Loading...';
-            fetch('https://api.isaacd2.com/development/newsletter/hello')
+            fetch('https://4yyvatwani.execute-api.us-east-1.amazonaws.com/test')
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.text();
