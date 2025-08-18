@@ -16,7 +16,9 @@
 
     <!-- OIDC Sign-in/out UI -->
     <div style="margin-top:2em;">
-        <button id="signIn">Sign In</button>
+        <a id="signInLink" href="https://us-east-1ksaxww0ls.auth.us-east-1.amazoncognito.com/login">
+            <button id="signIn">Sign In</button>
+        </a>
         <button id="signOut">Log out</button>
     </div>
     <div style="margin-top:1em;">
@@ -39,10 +41,8 @@
         // Create UserManager
         const userManager = new window.Oidc.UserManager(cognitoAuthConfig);
 
-        // Sign-in button handler
-        document.getElementById("signIn").addEventListener("click", async () => {
-            await userManager.signinRedirect();
-        });
+
+    // Sign-in now handled by direct link, no JS needed
 
         // Callback handler for OIDC redirect
         userManager.signinCallback().then(function (user) {
