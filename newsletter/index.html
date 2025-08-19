@@ -19,7 +19,7 @@
 
     // Step 1: Redirect to Cognito login
     document.getElementById("loginBtn").onclick = () => {
-      const loginUrl = 'https://us-east-1na0tjilzs.auth.us-east-1.amazoncognito.com/login?client_id=7ftcq3nq571hpgt92jb1ihm0ch&response_type=token&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fisaacd277.github.io%2Fisaacd2.com%2F';
+      const loginUrl = 'https://us-east-1na0tjilzs.auth.us-east-1.amazoncognito.com/login/continue?client_id=7ftcq3nq571hpgt92jb1ihm0ch&redirect_uri=https%3A%2F%2Fdev.isaacd2.com%2Fnewsletter&response_type=token&scope=email+openid+phone';
       window.location = loginUrl;
     };
 
