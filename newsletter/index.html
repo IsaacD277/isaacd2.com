@@ -17,6 +17,7 @@
     <button type="submit" id="subscribeBtn" disabled>Subscribe</button>
   </form>
 
+  <div id="subscribeResult"></div>
   <div id="output"></div>
 
   <script>
@@ -129,10 +130,19 @@
             firstName: name
           })
         });
-        const data = await res.json();
-  renderSubscribers(data);
+        // Try to parse JSON, but if not, show text
+        let msg = '';
+        try {
+          const data = await res.json();
+          msg = data && typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data);
+        } catch (e) {
+          msg = await res.text();
+        }
+        document.getElementById("subscribeResult").textContent = msg;
+        // Optionally, refresh the table after subscribing
+        callApi();
       } catch (err) {
-        document.getElementById("output").textContent = "Error: " + err;
+        document.getElementById("subscribeResult").textContent = "Error: " + err;
       }
     };
   </script>
