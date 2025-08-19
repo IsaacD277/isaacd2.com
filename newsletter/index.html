@@ -1,84 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Newsletter Hello API Test</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 2em; }
-        #result { margin-top: 1em; padding: 1em; border: 1px solid #ccc; background: #f9f9f9; }
-        button { padding: 0.5em 1em; font-size: 1em; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Newsletter Dashboard</title>
 </head>
 <body>
-    <h1>Test Newsletter Hello API</h1>
-    <button id="submitBtn">Send Authorized GET Request</button>
-    <div id="result"></div>
+  <h1>Newsletter Dashboard</h1>
+  <button id="loginBtn">Login with Cognito</button>
+  <button id="callApiBtn" disabled>Call API</button>
 
-    <!-- OIDC Sign-in/out UI -->
-    <div style="margin-top:2em;">
-        <a id="signInLink" href="https://us-east-1ksaxww0ls.auth.us-east-1.amazoncognito.com/login/continue?client_id=34mb0cifi4pc17cm7juqdnd5em&redirect_uri=https%3A%2F%2Fdev.isaacd2.com%2Fnewsletter&response_type=code&scope=email+openid+phone">
-            <button id="signIn">Sign In</button>
-        </a>
-        <button id="signOut">Log out</button>
-    </div>
-    <div style="margin-top:1em;">
-        Hello: <pre id="email"></pre>
-        Access token: <pre id="access-token"></pre>
-        ID token: <pre id="id-token"></pre>
-        Refresh token: <pre id="refresh-token"></pre>
-    </div>
+  <pre id="output"></pre>
 
-    <script src="https://cdn.jsdelivr.net/npm/oidc-client-ts@1/dist/oidc-client-ts.min.js"></script>
-    <script>
-        // OIDC config
-        const cognitoAuthConfig = {
-            authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_KSaXwW0Ls",
-            client_id: "53lbka1er1uood579akb0at7c2",
-            redirect_uri: "https://dev.isaacd2.com/newsletter",
-            response_type: "code",
-            scope: "email openid phone"
-        };
-        // Create UserManager
-        const userManager = new window.Oidc.UserManager(cognitoAuthConfig);
+  <script>
+    const clientId = "7ftcq3nq571hpgt92jb1ihm0ch";
+    const domain = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_Na0TJILzS";
+    const redirectUri = "https://isaacd2.com/newsletter";
+    const apiUrl = "https://4yyvatwani.execute-api.us-east-1.amazonaws.com/development";
 
+    // Step 1: Redirect to Cognito login
+    document.getElementById("loginBtn").onclick = () => {
+      const loginUrl = `https://us-east-1na0tjilzs.auth.us-east-1.amazoncognito.com/login?client_id=7ftcq3nq571hpgt92jb1ihm0ch&response_type=token&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdev.isaacd2.com%2Fnewsletter`;
+      window.location = loginUrl;
+    };
 
-    // Sign-in now handled by direct link, no JS needed
+    // Step 2: Parse token from URL hash after redirect
+    function parseHash() {
+      const hash = window.location.hash.substring(1);
+      const params = new URLSearchParams(hash);
+      return {
+        id_token: params.get("id_token"),
+        access_token: params.get("access_token"),
+        expires_in: params.get("expires_in"),
+        token_type: params.get("token_type")
+      };
+    }
 
-        // Callback handler for OIDC redirect
-        userManager.signinCallback().then(function (user) {
-            document.getElementById("email").textContent = user.profile?.email || '';
-            document.getElementById("access-token").textContent = user.access_token || '';
-            document.getElementById("id-token").textContent = user.id_token || '';
-            document.getElementById("refresh-token").textContent = user.refresh_token || '';
-        }).catch(() => {
-            // Not a callback, or not signed in
+    const tokens = parseHash();
+    if (tokens.id_token) {
+      localStorage.setItem("id_token", tokens.id_token);
+      document.getElementById("output").textContent = "Logged in!";
+      document.getElementById("callApiBtn").disabled = false;
+    }
+
+    // Step 3: Use token in API requests
+    document.getElementById("callApiBtn").onclick = async () => {
+      const token = localStorage.getItem("id_token");
+      try {
+        const res = await fetch(apiUrl + "/test", {
+          method: "GET",
+          headers: {
+            Authorization: token
+          }
         });
-
-        // Sign-out button handler
-        document.getElementById("signOut").addEventListener("click", async () => {
-            const clientId = "53lbka1er1uood579akb0at7c2";
-            const logoutUri = "https://dev.isaacd2.com/newsletter";
-            const cognitoDomain = "https://us-east-1ksaxww0ls.auth.us-east-1.amazoncognito.com";
-            window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-        });
-    </script>
-
-    <script>
-        document.getElementById('submitBtn').addEventListener('click', function() {
-            const resultDiv = document.getElementById('result');
-            resultDiv.textContent = 'Loading...';
-            fetch('https://4yyvatwani.execute-api.us-east-1.amazonaws.com/development/test')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.text();
-                })
-                .then(data => {
-                    resultDiv.textContent = data;
-                })
-                .catch(error => {
-                    resultDiv.textContent = 'Error: ' + error.message;
-                });
-        });
-    </script>
+        const data = await res.json();
+        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("output").textContent = "Error: " + err;
+      }
+    };
+  </script>
 </body>
 </html>
