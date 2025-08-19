@@ -14,12 +14,12 @@
   <script>
     const clientId = "7ftcq3nq571hpgt92jb1ihm0ch";
     const domain = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_Na0TJILzS";
-    const redirectUri = "https://isaacd2.com/newsletter";
+    const redirectUri = "https://dev.isaacd2.com/newsletter";
     const apiUrl = "https://4yyvatwani.execute-api.us-east-1.amazonaws.com/development";
 
     // Step 1: Redirect to Cognito login
     document.getElementById("loginBtn").onclick = () => {
-      const loginUrl = `https://us-east-1na0tjilzs.auth.us-east-1.amazoncognito.com/login?client_id=7ftcq3nq571hpgt92jb1ihm0ch&response_type=token&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdev.isaacd2.com%2Fnewsletter`;
+      const loginUrl = 'https://us-east-1na0tjilzs.auth.us-east-1.amazoncognito.com/login?client_id=7ftcq3nq571hpgt92jb1ihm0ch&response_type=token&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fisaacd277.github.io%2Fisaacd2.com%2F';
       window.location = loginUrl;
     };
 
