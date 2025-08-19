@@ -21,14 +21,11 @@
   <div id="output"></div>
 
   <script>
-    const clientId = "7ftcq3nq571hpgt92jb1ihm0ch";
-    const domain = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_Na0TJILzS";
-    const redirectUri = "https://dev.isaacd2.com/newsletter";
     const apiUrl = "https://beacon.isaacd2.com";
 
     // Step 1: Redirect to Cognito login
     document.getElementById("loginBtn").onclick = () => {
-      const loginUrl = 'https://us-east-1na0tjilzs.auth.us-east-1.amazoncognito.com/login/continue?client_id=7ftcq3nq571hpgt92jb1ihm0ch&redirect_uri=https%3A%2F%2Fdev.isaacd2.com%2Fnewsletter&response_type=token&scope=email+openid+phone';
+      const loginUrl = 'https://auth.isaacd2.com/login?client_id=7ftcq3nq571hpgt92jb1ihm0ch&response_type=token&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdev.isaacd2.com%2Fnewsletter';
       window.location = loginUrl;
     };
 
