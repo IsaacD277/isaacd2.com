@@ -9,13 +9,20 @@
   <button id="loginBtn">Login with Cognito</button>
   <button id="callApiBtn" disabled>Call API</button>
 
+  <h2>Subscribe</h2>
+  <form id="subscribeForm" style="margin-bottom:1em;">
+    <input type="text" id="firstName" placeholder="First Name" required />
+    <input type="email" id="emailAddress" placeholder="Email Address" required />
+    <button type="submit" id="subscribeBtn" disabled>Subscribe</button>
+  </form>
+
   <pre id="output"></pre>
 
   <script>
     const clientId = "7ftcq3nq571hpgt92jb1ihm0ch";
     const domain = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_Na0TJILzS";
     const redirectUri = "https://dev.isaacd2.com/newsletter";
-    const apiUrl = "https://4yyvatwani.execute-api.us-east-1.amazonaws.com/development";
+    const apiUrl = "https://beacon.isaacd2.com";
 
     // Step 1: Redirect to Cognito login
     document.getElementById("loginBtn").onclick = () => {
@@ -34,6 +41,10 @@
         token_type: params.get("token_type")
       };
     }
+    // Enable subscribe button if logged in
+    if (tokens.id_token || localStorage.getItem("id_token")) {
+      document.getElementById("subscribeBtn").disabled = false;
+    }
 
     const tokens = parseHash();
     if (tokens.id_token) {
@@ -46,11 +57,36 @@
     document.getElementById("callApiBtn").onclick = async () => {
       const token = localStorage.getItem("id_token");
       try {
-        const res = await fetch(apiUrl + "/test", {
+        const res = await fetch(apiUrl + "/subscribers", {
           method: "GET",
           headers: {
             Authorization: token
           }
+        });
+        const data = await res.json();
+        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("output").textContent = "Error: " + err;
+      }
+    };
+
+    // Step 4: Subscribe form handler
+    document.getElementById("subscribeForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem("id_token");
+      const name = document.getElementById("firstName").value;
+      const email = document.getElementById("emailAddress").value;
+      try {
+        const res = await fetch(apiUrl + "/subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+          },
+          body: JSON.stringify({
+            emailAddress: email,
+            firstName: name
+          })
         });
         const data = await res.json();
         document.getElementById("output").textContent = JSON.stringify(data, null, 2);
