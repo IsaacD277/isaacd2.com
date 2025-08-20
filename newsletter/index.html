@@ -5,20 +5,6 @@
   <title>Newsletter Dashboard</title>
 </head>
 <body>
-  <h2>Campaigns</h2>
-  <form id="campaignForm" style="margin-bottom:1em;">
-    <input type="text" id="campaignName" placeholder="Campaign Name" required />
-    <select id="campaignVersion" required>
-      <option value="a">A</option>
-      <option value="b">B</option>
-    </select>
-    <input type="text" id="campaignSubject" placeholder="Email Subject" required />
-    <input type="text" id="campaignPreview" placeholder="Email Preview" required />
-    <input type="date" id="campaignSendDate" required />
-    <button type="submit" id="campaignBtn" disabled>Add Campaign</button>
-  </form>
-  <div id="campaignResult"></div>
-  <div id="campaignsOutput"></div>
   <h1>Newsletter Dashboard</h1>
 
   <button id="loginBtn">Login with Cognito</button>
@@ -33,6 +19,21 @@
 
   <div id="subscribeResult"></div>
   <div id="output"></div>
+
+  <h2>Campaigns</h2>
+  <form id="campaignForm" style="margin-bottom:1em;">
+    <input type="text" id="campaignName" placeholder="Campaign Name" required />
+    <select id="campaignVersion" required>
+      <option value="a">A</option>
+      <option value="b">B</option>
+    </select>
+    <input type="text" id="campaignSubject" placeholder="Email Subject" required />
+    <input type="text" id="campaignPreview" placeholder="Email Preview" required />
+    <input type="date" id="campaignSendDate" required />
+    <button type="submit" id="campaignBtn" disabled>Add Campaign</button>
+  </form>
+  <div id="campaignResult"></div>
+  <div id="campaignsOutput"></div>
 
   <script>
     // Enable campaign form if logged in
