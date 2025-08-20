@@ -2,38 +2,463 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Newsletter Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #2d3748;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 3rem;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      background: linear-gradient(45deg, #fff, #f0f8ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: white;
+      margin: 2.5rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h2::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+      border-radius: 2px;
+    }
+
+    .auth-section {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      margin: 0 0.5rem;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.6s ease-out;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: end;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 1rem;
+      background: white;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .form-input::placeholder {
+      color: #a0aec0;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus::placeholder {
+      opacity: 0.7;
+      transform: translateY(-2px);
+    }
+
+    select.form-input {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 12px center;
+      background-repeat: no-repeat;
+      background-size: 16px;
+    }
+
+    .result {
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-left: 4px solid #667eea;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      min-height: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .result:not(:empty) {
+      animation: slideInRight 0.4s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      margin-top: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 16px 20px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    th:first-child {
+      border-top-left-radius: 16px;
+    }
+
+    th:last-child {
+      border-top-right-radius: 16px;
+    }
+
+    td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      background: white;
+      transition: background-color 0.2s ease;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    tr:last-child td:first-child {
+      border-bottom-left-radius: 16px;
+    }
+
+    tr:last-child td:last-child {
+      border-bottom-right-radius: 16px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #718096;
+    }
+
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e2e8f0;
+      border-top: 2px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .success {
+      color: #38a169;
+      background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+      border-left-color: #38a169;
+    }
+
+    .error {
+      color: #e53e3e;
+      background: linear-gradient(135deg, #fff5f5, #fed7d7);
+      border-left-color: #e53e3e;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      th, td {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Dark mode toggle effect */
+    @media (prefers-color-scheme: dark) {
+      .card {
+        background: rgba(45, 55, 72, 0.95);
+        color: #e2e8f0;
+      }
+      
+      .form-input {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+      }
+      
+      .form-input::placeholder {
+        color: #718096;
+      }
+    }
+
+    /* Floating animation for cards */
+    .card {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .card:nth-child(even) {
+      animation-delay: -3s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* Micro-interactions */
+    .form-input:valid {
+      border-color: #38a169;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #38a169, #48bb78);
+      box-shadow: 0 8px 32px rgba(56, 161, 105, 0.4);
+    }
+
+    .btn-submit:hover {
+      box-shadow: 0 12px 40px rgba(56, 161, 105, 0.6);
+    }
+  </style>
 </head>
 <body>
-  <h1>Newsletter Dashboard</h1>
+  <div class="container">
+    <h1>Newsletter Dashboard</h1>
 
-  <button id="loginBtn">Login with Cognito</button>
-  <button id="refreshBtn" style="display:none;">Refresh</button>
+    <div class="auth-section">
+      <button id="loginBtn" class="btn">✨ Login with Cognito</button>
+      <button id="refreshBtn" class="btn" style="display:none;">🔄 Refresh</button>
+    </div>
 
-  <h2>Subscribe</h2>
-  <form id="subscribeForm" style="margin-bottom:1em;">
-    <input type="text" id="firstName" placeholder="First Name" required />
-    <input type="email" id="emailAddress" placeholder="Email Address" required />
-    <button type="submit" id="subscribeBtn" disabled>Subscribe</button>
-  </form>
+    <div class="card">
+      <h2>📧 Subscribe</h2>
+      <form id="subscribeForm">
+        <div class="form-grid">
+          <div class="input-group">
+            <input type="text" id="firstName" class="form-input" placeholder="First Name" required />
+          </div>
+          <div class="input-group">
+            <input type="email" id="emailAddress" class="form-input" placeholder="Email Address" required />
+          </div>
+          <button type="submit" id="subscribeBtn" class="btn btn-submit" disabled>Subscribe</button>
+        </div>
+      </form>
+      <div id="subscribeResult" class="result"></div>
+    </div>
 
-  <div id="subscribeResult"></div>
-  <div id="output"></div>
+    <div id="output" class="card"></div>
 
-  <h2>Campaigns</h2>
-  <form id="campaignForm" style="margin-bottom:1em;">
-    <input type="text" id="campaignName" placeholder="Campaign Name" required />
-    <select id="campaignVersion" required>
-      <option value="a">A</option>
-      <option value="b">B</option>
-    </select>
-    <input type="text" id="campaignSubject" placeholder="Email Subject" required />
-    <input type="text" id="campaignPreview" placeholder="Email Preview" required />
-    <input type="date" id="campaignSendDate" required />
-    <button type="submit" id="campaignBtn" disabled>Add Campaign</button>
-  </form>
-  <div id="campaignResult"></div>
-  <div id="campaignsOutput"></div>
+    <div class="card">
+      <h2>🚀 Campaigns</h2>
+      <form id="campaignForm">
+        <div class="form-grid">
+          <div class="input-group">
+            <input type="text" id="campaignName" class="form-input" placeholder="Campaign Name" required />
+          </div>
+          <div class="input-group">
+            <select id="campaignVersion" class="form-input" required>
+              <option value="">Select Version</option>
+              <option value="a">Version A</option>
+              <option value="b">Version B</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <input type="text" id="campaignSubject" class="form-input" placeholder="Email Subject" required />
+          </div>
+          <div class="input-group">
+            <input type="text" id="campaignPreview" class="form-input" placeholder="Email Preview" required />
+          </div>
+          <div class="input-group">
+            <input type="date" id="campaignSendDate" class="form-input" required />
+          </div>
+          <button type="submit" id="campaignBtn" class="btn btn-submit" disabled>Add Campaign</button>
+        </div>
+      </form>
+      <div id="campaignResult" class="result"></div>
+    </div>
+
+    <div id="campaignsOutput" class="card"></div>
+  </div>
 
   <script>
     const apiUrl = "https://beacon.isaacd2.com";
@@ -55,49 +480,55 @@
         token_type: params.get("token_type")
       };
     }
+    
     // Parse tokens from URL hash
     const tokens = parseHash();
 
     // If just logged in, store token and update UI
     if (tokens.id_token) {
       localStorage.setItem("id_token", tokens.id_token);
-      document.getElementById("output").textContent = "Logged in!";
+      document.getElementById("output").innerHTML = '<div class="success">🎉 Logged in successfully!</div>';
     }
 
-    // Enable subscribe/refresh if token is present in localStorage
+    // Enable subscribe/refresh if token is present
     if (localStorage.getItem("id_token")) {
       document.getElementById("subscribeBtn").disabled = false;
       document.getElementById("refreshBtn").style.display = "inline-block";
       callApi(); // Call API on page load
     }
 
-    // Render subscribers as a table
+    // Render subscribers as a modern table
     function renderSubscribers(data) {
       if (!Array.isArray(data)) {
-        document.getElementById("output").textContent = "No data.";
+        document.getElementById("output").innerHTML = '<div class="error">No data available</div>';
         return;
       }
       if (data.length === 0) {
-        document.getElementById("output").textContent = "No subscribers found.";
+        document.getElementById("output").innerHTML = '<div class="loading">No subscribers found</div>';
         return;
       }
-      let html = `<table style="border-collapse:collapse;width:100%;max-width:600px;">
-        <thead>
-          <tr style="background:#f0f0f0;">
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>First Name</th>
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>Email</th>
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>Subscription Date</th>
-          </tr>
-        </thead>
-        <tbody>`;
+      
+      let html = `
+        <h2>👥 Subscribers (${data.length})</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Email</th>
+                <th>Subscription Date</th>
+              </tr>
+            </thead>
+            <tbody>`;
+      
       for (const sub of data) {
         html += `<tr>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${sub.firstName || ""}</td>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${sub.emailAddress || ""}</td>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${sub.subscriptionDate || ""}</td>
+          <td>${sub.firstName || "—"}</td>
+          <td>${sub.emailAddress || "—"}</td>
+          <td>${sub.subscriptionDate ? new Date(sub.subscriptionDate).toLocaleDateString() : "—"}</td>
         </tr>`;
       }
-      html += `</tbody></table>`;
+      html += `</tbody></table></div>`;
       document.getElementById("output").innerHTML = html;
     }
 
@@ -105,6 +536,9 @@
     async function callApi() {
       const token = localStorage.getItem("id_token");
       if (!token) return;
+      
+      document.getElementById("output").innerHTML = '<div class="loading">Loading subscribers...</div>';
+      
       try {
         const res = await fetch(apiUrl + "/subscribers", {
           method: "GET",
@@ -115,14 +549,12 @@
         const data = await res.json();
         renderSubscribers(data);
       } catch (err) {
-        document.getElementById("output").textContent = "Error: " + err;
+        document.getElementById("output").innerHTML = `<div class="error">Error: ${err.message}</div>`;
       }
     }
 
     // Refresh button handler
     document.getElementById("refreshBtn").onclick = callApi;
-
-  // ...removed callApiBtn handler...
 
     // Step 4: Subscribe form handler
     document.getElementById("subscribeForm").onsubmit = async (e) => {
@@ -130,6 +562,10 @@
       const token = localStorage.getItem("id_token");
       const name = document.getElementById("firstName").value;
       const email = document.getElementById("emailAddress").value;
+      
+      document.getElementById("subscribeResult").textContent = "Subscribing...";
+      document.getElementById("subscribeResult").className = "result loading";
+      
       try {
         const res = await fetch(apiUrl + "/subscribe", {
           method: "POST",
@@ -142,7 +578,7 @@
             firstName: name
           })
         });
-        // Try to parse JSON, but if not, show text
+        
         let msg = '';
         try {
           const data = await res.json();
@@ -150,11 +586,18 @@
         } catch (e) {
           msg = await res.text();
         }
+        
         document.getElementById("subscribeResult").textContent = msg;
-        // Optionally, refresh the table after subscribing
+        document.getElementById("subscribeResult").className = "result success";
+        
+        // Clear form
+        document.getElementById("subscribeForm").reset();
+        
+        // Refresh the table
         callApi();
       } catch (err) {
-        document.getElementById("subscribeResult").textContent = "Error: " + err;
+        document.getElementById("subscribeResult").textContent = "Error: " + err.message;
+        document.getElementById("subscribeResult").className = "result error";
       }
     };
 
@@ -164,37 +607,42 @@
       fetchCampaigns();
     }
 
-    // Render campaigns as a table
+    // Render campaigns as a modern table
     function renderCampaigns(data) {
       if (!Array.isArray(data)) {
-        document.getElementById("campaignsOutput").textContent = "No data.";
+        document.getElementById("campaignsOutput").innerHTML = '<div class="error">No campaign data available</div>';
         return;
       }
       if (data.length === 0) {
-        document.getElementById("campaignsOutput").textContent = "No campaigns found.";
+        document.getElementById("campaignsOutput").innerHTML = '<div class="loading">No campaigns found</div>';
         return;
       }
-      let html = `<table style="border-collapse:collapse;width:100%;max-width:800px;">
-        <thead>
-          <tr style="background:#f0f0f0;">
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>Campaign</th>
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>Version</th>
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>Send Date</th>
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>Subject</th>
-            <th style='border:1px solid #ccc;padding:6px 10px;text-align:left;'>Preview</th>
-          </tr>
-        </thead>
-        <tbody>`;
+      
+      let html = `
+        <h2>📊 Active Campaigns (${data.length})</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Campaign</th>
+                <th>Version</th>
+                <th>Send Date</th>
+                <th>Subject</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody>`;
+      
       for (const c of data) {
         html += `<tr>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${c.campaign || ""}</td>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${c.version || ""}</td>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${c.sendDate || ""}</td>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${c.subject || ""}</td>
-          <td style='border:1px solid #ccc;padding:6px 10px;'>${c.preview || ""}</td>
+          <td><strong>${c.campaign || "—"}</strong></td>
+          <td><span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">${c.version?.toUpperCase() || "—"}</span></td>
+          <td>${c.sendDate ? new Date(c.sendDate).toLocaleDateString() : "—"}</td>
+          <td>${c.subject || "—"}</td>
+          <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.preview || "—"}</td>
         </tr>`;
       }
-      html += `</tbody></table>`;
+      html += `</tbody></table></div>`;
       document.getElementById("campaignsOutput").innerHTML = html;
     }
 
@@ -202,6 +650,9 @@
     async function fetchCampaigns() {
       const token = localStorage.getItem("id_token");
       if (!token) return;
+      
+      document.getElementById("campaignsOutput").innerHTML = '<div class="loading">Loading campaigns...</div>';
+      
       try {
         const res = await fetch(apiUrl + "/campaigns", {
           method: "GET",
@@ -212,7 +663,7 @@
         const data = await res.json();
         renderCampaigns(data);
       } catch (err) {
-        document.getElementById("campaignsOutput").textContent = "Error: " + err;
+        document.getElementById("campaignsOutput").innerHTML = `<div class="error">Error: ${err.message}</div>`;
       }
     }
 
@@ -225,6 +676,10 @@
       const subject = document.getElementById("campaignSubject").value;
       const preview = document.getElementById("campaignPreview").value;
       const sendDate = document.getElementById("campaignSendDate").value;
+      
+      document.getElementById("campaignResult").textContent = "Creating campaign...";
+      document.getElementById("campaignResult").className = "result loading";
+      
       try {
         const res = await fetch(apiUrl + "/campaign", {
           method: "POST",
@@ -240,6 +695,7 @@
             preview
           })
         });
+        
         let msg = '';
         try {
           const data = await res.json();
@@ -247,10 +703,18 @@
         } catch (e) {
           msg = await res.text();
         }
+        
         document.getElementById("campaignResult").textContent = msg;
+        document.getElementById("campaignResult").className = "result success";
+        
+        // Clear form
+        document.getElementById("campaignForm").reset();
+        
+        // Refresh campaigns
         fetchCampaigns();
       } catch (err) {
-        document.getElementById("campaignResult").textContent = "Error: " + err;
+        document.getElementById("campaignResult").textContent = "Error: " + err.message;
+        document.getElementById("campaignResult").className = "result error";
       }
     };
   </script>
