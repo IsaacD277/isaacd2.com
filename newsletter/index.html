@@ -40,33 +40,26 @@
 
     h1 {
       text-align: center;
-      font-size: 3rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      color: white;
-      margin-bottom: 3rem;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      background: linear-gradient(45deg, #fff, #f0f8ff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #fff;
+      margin-bottom: 2.2rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      letter-spacing: 0.5px;
+      background: none;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: unset;
     }
 
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.25rem;
       font-weight: 600;
-      color: white;
-      margin: 2.5rem 0 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    h2::before {
-      content: '';
-      width: 4px;
-      height: 24px;
-      background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
-      border-radius: 2px;
+      color: #2d3748;
+      margin: 1.5rem 0 1rem;
+      border-left: 4px solid #667eea;
+      padding-left: 0.75rem;
+      background: none;
+      display: block;
     }
 
     .auth-section {
@@ -75,79 +68,47 @@
     }
 
     .btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #667eea;
       border: none;
-      color: white;
-      padding: 14px 32px;
-      border-radius: 50px;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 24px;
       cursor: pointer;
       font-size: 1rem;
       font-weight: 600;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.10);
       text-decoration: none;
       display: inline-block;
-      position: relative;
-      overflow: hidden;
       margin: 0 0.5rem;
     }
 
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+      background: #4c51bf;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
     }
 
     .btn:active {
-      transform: translateY(0);
+      background: #434190;
     }
 
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      transform: none !important;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-      animation: slideInUp 0.6s ease-out;
-    }
-
-    @keyframes slideInUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e2e8f0;
+      transition: box-shadow 0.2s;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 24px rgba(102, 126, 234, 0.10);
     }
 
     .form-grid {
@@ -199,16 +160,16 @@
     }
 
     .result {
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border-radius: 12px;
-      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
       margin-top: 1rem;
       border-left: 4px solid #667eea;
-      font-family: 'Monaco', 'Menlo', monospace;
-      font-size: 0.9rem;
-      white-space: pre-wrap;
-      min-height: 40px;
-      transition: all 0.3s ease;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      font-size: 1rem;
+      white-space: pre-line;
+      min-height: 32px;
+      transition: all 0.2s;
     }
 
     .result:not(:empty) {
@@ -309,14 +270,14 @@
     }
 
     .success {
-      color: #38a169;
-      background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+      color: #276749;
+      background: #f0fff4;
       border-left-color: #38a169;
     }
 
     .error {
-      color: #e53e3e;
-      background: linear-gradient(135deg, #fff5f5, #fed7d7);
+      color: #9b2c2c;
+      background: #fff5f5;
       border-left-color: #e53e3e;
     }
 
@@ -369,22 +330,7 @@
     }
 
     /* Floating animation for cards */
-    .card {
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .card:nth-child(even) {
-      animation-delay: -3s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-5px);
-      }
-    }
+  /* Remove playful card float animation */
 
     /* Micro-interactions */
     .form-input:valid {
@@ -392,12 +338,13 @@
     }
 
     .btn-submit {
-      background: linear-gradient(135deg, #38a169, #48bb78);
-      box-shadow: 0 8px 32px rgba(56, 161, 105, 0.4);
+      background: #38a169;
+      box-shadow: 0 2px 8px rgba(56, 161, 105, 0.10);
     }
 
     .btn-submit:hover {
-      box-shadow: 0 12px 40px rgba(56, 161, 105, 0.6);
+      background: #2f855a;
+      box-shadow: 0 4px 16px rgba(56, 161, 105, 0.18);
     }
   </style>
 </head>
@@ -487,7 +434,7 @@
     // If just logged in, store token and update UI
     if (tokens.id_token) {
       localStorage.setItem("id_token", tokens.id_token);
-      document.getElementById("output").innerHTML = '<div class="success">🎉 Logged in successfully!</div>';
+      document.getElementById("output").innerHTML = '<div class="success">Logged in successfully.</div>';
     }
 
     // Enable subscribe/refresh if token is present
@@ -500,16 +447,15 @@
     // Render subscribers as a modern table
     function renderSubscribers(data) {
       if (!Array.isArray(data)) {
-        document.getElementById("output").innerHTML = '<div class="error">No data available</div>';
+        document.getElementById("output").innerHTML = '<div class="error">No subscriber data available.</div>';
         return;
       }
       if (data.length === 0) {
-        document.getElementById("output").innerHTML = '<div class="loading">No subscribers found</div>';
+        document.getElementById("output").innerHTML = '<div class="loading">No subscribers found.</div>';
         return;
       }
-      
       let html = `
-        <h2>👥 Subscribers (${data.length})</h2>
+        <h2>Subscribers (${data.length})</h2>
         <div class="table-container">
           <table>
             <thead>
@@ -520,7 +466,6 @@
               </tr>
             </thead>
             <tbody>`;
-      
       for (const sub of data) {
         html += `<tr>
           <td>${sub.firstName || "—"}</td>
@@ -563,9 +508,8 @@
       const name = document.getElementById("firstName").value;
       const email = document.getElementById("emailAddress").value;
       
-      document.getElementById("subscribeResult").textContent = "Subscribing...";
+      document.getElementById("subscribeResult").textContent = "Submitting...";
       document.getElementById("subscribeResult").className = "result loading";
-      
       try {
         const res = await fetch(apiUrl + "/subscribe", {
           method: "POST",
@@ -578,22 +522,26 @@
             firstName: name
           })
         });
-        
         let msg = '';
         try {
           const data = await res.json();
-          msg = data && typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data);
+          if (data && typeof data === 'object') {
+            if (data.message) {
+              msg = data.message;
+            } else if (data.error) {
+              msg = data.error;
+            } else {
+              msg = 'Success.';
+            }
+          } else {
+            msg = String(data);
+          }
         } catch (e) {
           msg = await res.text();
         }
-        
         document.getElementById("subscribeResult").textContent = msg;
-        document.getElementById("subscribeResult").className = "result success";
-        
-        // Clear form
+        document.getElementById("subscribeResult").className = res.ok ? "result success" : "result error";
         document.getElementById("subscribeForm").reset();
-        
-        // Refresh the table
         callApi();
       } catch (err) {
         document.getElementById("subscribeResult").textContent = "Error: " + err.message;
@@ -610,16 +558,15 @@
     // Render campaigns as a modern table
     function renderCampaigns(data) {
       if (!Array.isArray(data)) {
-        document.getElementById("campaignsOutput").innerHTML = '<div class="error">No campaign data available</div>';
+        document.getElementById("campaignsOutput").innerHTML = '<div class="error">No campaign data available.</div>';
         return;
       }
       if (data.length === 0) {
-        document.getElementById("campaignsOutput").innerHTML = '<div class="loading">No campaigns found</div>';
+        document.getElementById("campaignsOutput").innerHTML = '<div class="loading">No campaigns found.</div>';
         return;
       }
-      
       let html = `
-        <h2>📊 Active Campaigns (${data.length})</h2>
+        <h2>Active Campaigns (${data.length})</h2>
         <div class="table-container">
           <table>
             <thead>
@@ -632,11 +579,10 @@
               </tr>
             </thead>
             <tbody>`;
-      
       for (const c of data) {
         html += `<tr>
-          <td><strong>${c.campaign || "—"}</strong></td>
-          <td><span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">${c.version?.toUpperCase() || "—"}</span></td>
+          <td>${c.campaign || "—"}</td>
+          <td>${c.version ? c.version.toUpperCase() : "—"}</td>
           <td>${c.sendDate ? new Date(c.sendDate).toLocaleDateString() : "—"}</td>
           <td>${c.subject || "—"}</td>
           <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.preview || "—"}</td>
@@ -677,9 +623,8 @@
       const preview = document.getElementById("campaignPreview").value;
       const sendDate = document.getElementById("campaignSendDate").value;
       
-      document.getElementById("campaignResult").textContent = "Creating campaign...";
+      document.getElementById("campaignResult").textContent = "Submitting...";
       document.getElementById("campaignResult").className = "result loading";
-      
       try {
         const res = await fetch(apiUrl + "/campaign", {
           method: "POST",
@@ -695,22 +640,26 @@
             preview
           })
         });
-        
         let msg = '';
         try {
           const data = await res.json();
-          msg = data && typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data);
+          if (data && typeof data === 'object') {
+            if (data.message) {
+              msg = data.message;
+            } else if (data.error) {
+              msg = data.error;
+            } else {
+              msg = 'Success.';
+            }
+          } else {
+            msg = String(data);
+          }
         } catch (e) {
           msg = await res.text();
         }
-        
         document.getElementById("campaignResult").textContent = msg;
-        document.getElementById("campaignResult").className = "result success";
-        
-        // Clear form
+        document.getElementById("campaignResult").className = res.ok ? "result success" : "result error";
         document.getElementById("campaignForm").reset();
-        
-        // Refresh campaigns
         fetchCampaigns();
       } catch (err) {
         document.getElementById("campaignResult").textContent = "Error: " + err.message;
