@@ -54,12 +54,23 @@
     h2 {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #2d3748;
+      color: #fff;
       margin: 1.5rem 0 1rem;
       border-left: 4px solid #667eea;
       padding-left: 0.75rem;
       background: none;
       display: block;
+    }
+
+    .section-title-count {
+      color: #fff !important;
+      font-weight: 600;
+      margin-left: 0.5em;
+      font-size: 1.1em;
+    }
+
+    .table-container, table, th, td {
+      color: #222 !important;
     }
 
     .auth-section {
@@ -574,7 +585,7 @@
         return;
       }
       let html = `
-        <h2>Subscribers (${data.length})</h2>
+        <h2>Subscribers <span class="section-title-count">(${data.length})</span></h2>
         <div class="table-container">
           <table>
             <thead>
@@ -686,7 +697,7 @@
         return;
       }
       let html = `
-        <h2>Active Campaigns (${data.length})</h2>
+        <h2>Active Campaigns <span class="section-title-count">(${data.length})</span></h2>
         <div class="table-container">
           <table>
             <thead>
