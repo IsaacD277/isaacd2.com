@@ -350,6 +350,7 @@
 </head>
 <body>
   <div class="container">
+
     <h1>Newsletter Dashboard</h1>
 
     <div class="auth-section">
@@ -371,6 +372,35 @@
         </div>
       </form>
       <div id="subscribeResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>Send Email to User</h2>
+      <form id="emailForm">
+        <div class="form-grid">
+          <div class="input-group">
+            <select id="emailRecipient" class="form-input" required>
+              <option value="">Select Recipient</option>
+              <!-- Options will be populated dynamically -->
+            </select>
+          </div>
+          <div class="input-group">
+            <select id="emailCampaign" class="form-input" required>
+              <option value="">Select Campaign</option>
+              <!-- Options will be populated dynamically -->
+            </select>
+          </div>
+          <div class="input-group">
+            <select id="emailVersion" class="form-input" required>
+              <option value="">Select Version</option>
+              <option value="a">A</option>
+              <option value="b">B</option>
+            </select>
+          </div>
+          <button type="submit" id="emailBtn" class="btn btn-submit">Send Email</button>
+        </div>
+      </form>
+      <div id="emailResult" class="result"></div>
     </div>
 
     <div id="output" class="card"></div>
@@ -409,6 +439,94 @@
 
   <script>
     const apiUrl = "https://beacon.isaacd2.com";
+    
+    // Enable email form if logged in
+    if (localStorage.getItem("id_token")) {
+      document.getElementById("emailBtn").disabled = false;
+    } else {
+      document.getElementById("emailBtn").disabled = true;
+    }
+
+    // Populate campaign dropdown for email form
+    function populateEmailCampaignDropdown(campaigns) {
+      const select = document.getElementById("emailCampaign");
+      while (select.options.length > 1) select.remove(1);
+      if (Array.isArray(campaigns)) {
+        const names = Array.from(new Set(campaigns.map(c => c.campaign).filter(Boolean)));
+        for (const name of names) {
+          const opt = document.createElement("option");
+          opt.value = name;
+          opt.textContent = name;
+          select.appendChild(opt);
+        }
+      }
+    }
+
+    // Populate recipient dropdown for email form
+    function populateEmailRecipientDropdown(subscribers) {
+      const select = document.getElementById("emailRecipient");
+      while (select.options.length > 1) select.remove(1);
+      if (Array.isArray(subscribers)) {
+        const emails = Array.from(new Set(subscribers.map(s => s.emailAddress).filter(Boolean)));
+        for (const email of emails) {
+          const opt = document.createElement("option");
+          opt.value = email;
+          opt.textContent = email;
+          select.appendChild(opt);
+        }
+      }
+    }
+
+    // Email form handler
+    document.getElementById("emailForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem("id_token");
+      const recipient = document.getElementById("emailRecipient").value;
+      const campaign = document.getElementById("emailCampaign").value;
+      let version = document.getElementById("emailVersion").value;
+      // Only send 'a' or 'b'
+      version = version === 'a' ? 'a' : version === 'b' ? 'b' : '';
+
+      document.getElementById("emailResult").textContent = "Submitting...";
+      document.getElementById("emailResult").className = "result loading";
+      try {
+        const res = await fetch(apiUrl + "/email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+          },
+          body: JSON.stringify({
+            recipient,
+            campaign,
+            version
+          })
+        });
+        let msg = '';
+        try {
+          const data = await res.json();
+          if (data && typeof data === 'object') {
+            if (data.message) {
+              msg = data.message;
+            } else if (data.error) {
+              msg = data.error;
+            } else {
+              msg = 'Success.';
+            }
+          } else {
+            msg = String(data);
+          }
+        } catch (e) {
+          msg = await res.text();
+        }
+        document.getElementById("emailResult").textContent = msg;
+        document.getElementById("emailResult").className = res.ok ? "result success" : "result error";
+        document.getElementById("emailForm").reset();
+      } catch (err) {
+        document.getElementById("emailResult").textContent = "Error: " + err.message;
+        document.getElementById("emailResult").className = "result error";
+      }
+    };
 
     // Step 1: Redirect to Cognito login
     document.getElementById("loginBtn").onclick = () => {
@@ -446,6 +564,7 @@
 
     // Render subscribers as a modern table
     function renderSubscribers(data) {
+      populateEmailRecipientDropdown(data);
       if (!Array.isArray(data)) {
         document.getElementById("output").innerHTML = '<div class="error">No subscriber data available.</div>';
         return;
@@ -557,6 +676,7 @@
 
     // Render campaigns as a modern table
     function renderCampaigns(data) {
+      populateEmailCampaignDropdown(data);
       if (!Array.isArray(data)) {
         document.getElementById("campaignsOutput").innerHTML = '<div class="error">No campaign data available.</div>';
         return;
