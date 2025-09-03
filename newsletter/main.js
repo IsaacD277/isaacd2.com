@@ -128,8 +128,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // If just logged in, store token and update UI
   if (tokens.id_token) {
-    localStorage.setItem("id_token", tokens.id_token);
-    document.getElementById("output").innerHTML = '<div class="success">Logged in successfully.</div>';
+  localStorage.setItem("id_token", tokens.id_token);
+  // Optionally, show a non-destructive login success message
+  const msg = document.createElement('div');
+  msg.className = 'success';
+  msg.textContent = 'Logged in successfully.';
+  document.body.appendChild(msg);
+  setTimeout(() => msg.remove(), 3000);
   }
 
   // Enable subscribe/refresh if token is present
@@ -143,12 +148,15 @@ document.addEventListener("DOMContentLoaded", function() {
   function renderSubscribers(data) {
     populateEmailRecipientDropdown(data);
     const tbody = document.querySelector('#subscribersTable tbody');
+    const output = document.getElementById('output');
     if (!Array.isArray(data)) {
       tbody.innerHTML = '<tr><td colspan="5" class="error">No subscriber data available.</td></tr>';
+      if (output) output.innerHTML = "";
       return;
     }
     if (data.length === 0) {
       tbody.innerHTML = '<tr><td colspan="5" class="loading">No subscribers found.</td></tr>';
+      if (output) output.innerHTML = "";
       return;
     }
     tbody.innerHTML = data.map(sub => `
@@ -163,15 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </td>
       </tr>
     `).join('');
-    for (const sub of data) {
-      html += `<tr>
-        <td>${sub.firstName || "—"}</td>
-        <td>${sub.emailAddress || "—"}</td>
-        <td>${sub.subscriptionDate ? new Date(sub.subscriptionDate).toLocaleDateString() : "—"}</td>
-      </tr>`;
-    }
-    html += `</tbody></table></div>`;
-    document.getElementById("output").innerHTML = html;
+    if (output) output.innerHTML = "";
   }
 
   // Update dashboard metrics
@@ -279,12 +279,22 @@ document.addEventListener("DOMContentLoaded", function() {
   function renderCampaigns(data) {
     populateEmailCampaignDropdown(data);
     const tbody = document.querySelector('#campaignsTable tbody');
+    const output = document.getElementById('campaignsOutput');
+    if (!tbody) {
+      // Table is missing, show a message in campaignsOutput
+      if (output) {
+        output.innerHTML = '<div class="error">Campaigns table is missing from the page.</div>';
+      }
+      return;
+    }
     if (!Array.isArray(data)) {
       tbody.innerHTML = '<tr><td colspan="5" class="error">No campaign data available.</td></tr>';
+      if (output) output.innerHTML = "";
       return;
     }
     if (data.length === 0) {
       tbody.innerHTML = '<tr><td colspan="5" class="loading">No campaigns found.</td></tr>';
+      if (output) output.innerHTML = "";
       return;
     }
     tbody.innerHTML = data.map(c => `
@@ -299,17 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </td>
       </tr>
     `).join('');
-    for (const c of data) {
-      html += `<tr>
-        <td>${c.campaign || "—"}</td>
-        <td>${c.version ? c.version.toUpperCase() : "—"}</td>
-        <td>${c.sendDate ? new Date(c.sendDate).toLocaleDateString() : "—"}</td>
-        <td>${c.subject || "—"}</td>
-        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.preview || "—"}</td>
-      </tr>`;
-    }
-    html += `</tbody></table></div>`;
-    document.getElementById("campaignsOutput").innerHTML = html;
+    if (output) output.innerHTML = "";
   }
 
   // Fetch campaigns from API
