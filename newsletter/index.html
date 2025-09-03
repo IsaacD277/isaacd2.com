@@ -4,799 +4,160 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Newsletter Dashboard</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      color: #2d3748;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-      animation: fadeInUp 0.8s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 2.2rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.10);
-      letter-spacing: 0.5px;
-      background: none;
-      -webkit-background-clip: unset;
-      -webkit-text-fill-color: unset;
-    }
-
-    h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #fff;
-      margin: 1.5rem 0 1rem;
-      border-left: 4px solid #667eea;
-      padding-left: 0.75rem;
-      background: none;
-      display: block;
-    }
-
-    .section-title-count {
-      color: #fff !important;
-      font-weight: 600;
-      margin-left: 0.5em;
-      font-size: 1.1em;
-    }
-
-    .table-container, table, th, td {
-      color: #222 !important;
-    }
-
-    .auth-section {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .btn {
-      background: #667eea;
-      border: none;
-      color: #fff;
-      padding: 12px 28px;
-      border-radius: 24px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.10);
-      text-decoration: none;
-      display: inline-block;
-      margin: 0 0.5rem;
-    }
-
-    .btn:hover {
-      background: #4c51bf;
-      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
-    }
-
-    .btn:active {
-      background: #434190;
-    }
-
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      border: 1px solid #e2e8f0;
-      transition: box-shadow 0.2s;
-    }
-
-    .card:hover {
-      box-shadow: 0 4px 24px rgba(102, 126, 234, 0.10);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      align-items: end;
-    }
-
-    .input-group {
-      position: relative;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 16px;
-      font-size: 1rem;
-      background: white;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      outline: none;
-    }
-
-    .form-input:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      transform: translateY(-2px);
-    }
-
-    .form-input::placeholder {
-      color: #a0aec0;
-      transition: all 0.3s ease;
-    }
-
-    .form-input:focus::placeholder {
-      opacity: 0.7;
-      transform: translateY(-2px);
-    }
-
-    select.form-input {
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-      background-position: right 12px center;
-      background-repeat: no-repeat;
-      background-size: 16px;
-    }
-
-    .result {
-      background: #f8fafc;
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      margin-top: 1rem;
-      border-left: 4px solid #667eea;
-      font-family: 'Segoe UI', 'Arial', sans-serif;
-      font-size: 1rem;
-      white-space: pre-line;
-      min-height: 32px;
-      transition: all 0.2s;
-    }
-
-    .result:not(:empty) {
-      animation: slideInRight 0.4s ease-out;
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .table-container {
-      overflow-x: auto;
-      border-radius: 16px;
-      background: white;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      margin-top: 1.5rem;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-    }
-
-    th {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 16px 20px;
-      text-align: left;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    th:first-child {
-      border-top-left-radius: 16px;
-    }
-
-    th:last-child {
-      border-top-right-radius: 16px;
-    }
-
-    td {
-      padding: 16px 20px;
-      border-bottom: 1px solid #e2e8f0;
-      background: white;
-      transition: background-color 0.2s ease;
-    }
-
-    tr:hover td {
-      background-color: #f8fafc;
-    }
-
-    tr:last-child td:first-child {
-      border-bottom-left-radius: 16px;
-    }
-
-    tr:last-child td:last-child {
-      border-bottom-right-radius: 16px;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: #718096;
-    }
-
-    .loading::after {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #e2e8f0;
-      border-top: 2px solid #667eea;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-left: 10px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .success {
-      color: #276749;
-      background: #f0fff4;
-      border-left-color: #38a169;
-    }
-
-    .error {
-      color: #9b2c2c;
-      background: #fff5f5;
-      border-left-color: #e53e3e;
-    }
-
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
-      }
-      
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 2rem;
-      }
-      
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .btn {
-        width: 100%;
-        margin: 0.5rem 0;
-      }
-      
-      .card {
-        padding: 1.5rem;
-      }
-      
-      th, td {
-        padding: 12px 16px;
-        font-size: 0.9rem;
-      }
-    }
-
-    /* Dark mode toggle effect */
-    @media (prefers-color-scheme: dark) {
-      .card {
-        background: rgba(45, 55, 72, 0.95);
-        color: #e2e8f0;
-      }
-      
-      .form-input {
-        background: #2d3748;
-        border-color: #4a5568;
-        color: #e2e8f0;
-      }
-      
-      .form-input::placeholder {
-        color: #718096;
-      }
-    }
-
-    /* Floating animation for cards */
-  /* Remove playful card float animation */
-
-    /* Micro-interactions */
-    .form-input:valid {
-      border-color: #38a169;
-    }
-
-    .btn-submit {
-      background: #38a169;
-      box-shadow: 0 2px 8px rgba(56, 161, 105, 0.10);
-    }
-
-    .btn-submit:hover {
-      background: #2f855a;
-      box-shadow: 0 4px 16px rgba(56, 161, 105, 0.18);
-    }
-  </style>
+  <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <div class="container">
+    <header>
+      <h1>Newsletter Dashboard</h1>
+      <div class="auth-section">
+        <button id="loginBtn" class="btn">✨ Login with Cognito</button>
+        <button id="refreshBtn" class="btn" style="display:none;">🔄 Refresh</button>
+      </div>
+    </header>
 
-    <h1>Newsletter Dashboard</h1>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="subscribers">Subscribers</button>
+      <button class="tab-btn" data-tab="campaigns">Campaigns</button>
+    </nav>
 
-    <div class="auth-section">
-      <button id="loginBtn" class="btn">✨ Login with Cognito</button>
-      <button id="refreshBtn" class="btn" style="display:none;">🔄 Refresh</button>
-    </div>
-
-    <div class="card">
-      <h2>📧 Subscribe</h2>
-      <form id="subscribeForm">
-        <div class="form-grid">
-          <div class="input-group">
-            <input type="text" id="firstName" class="form-input" placeholder="First Name" required />
-          </div>
-          <div class="input-group">
-            <input type="email" id="emailAddress" class="form-input" placeholder="Email Address" required />
-          </div>
-          <button type="submit" id="subscribeBtn" class="btn btn-submit" disabled>Subscribe</button>
+    <!-- Dashboard Tab -->
+    <div class="tab-content active" id="dashboard">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Total Subscribers</div>
+          <div class="metric-value">245</div>
+          <div class="metric-trend">↑ 12% this month</div>
         </div>
-      </form>
-      <div id="subscribeResult" class="result"></div>
-    </div>
-
-    <div class="card">
-      <h2>Send Email to User</h2>
-      <form id="emailForm">
-        <div class="form-grid">
-          <div class="input-group">
-            <select id="emailRecipient" class="form-input" required>
-              <option value="">Select Recipient</option>
-              <!-- Options will be populated dynamically -->
-            </select>
-          </div>
-          <div class="input-group">
-            <select id="emailCampaign" class="form-input" required>
-              <option value="">Select Campaign</option>
-              <!-- Options will be populated dynamically -->
-            </select>
-          </div>
-          <div class="input-group">
-            <select id="emailVersion" class="form-input" required>
-              <option value="">Select Version</option>
-              <option value="a">A</option>
-              <option value="b">B</option>
-            </select>
-          </div>
-          <button type="submit" id="emailBtn" class="btn btn-submit">Send Email</button>
+        <div class="metric-card">
+          <div class="metric-label">Open Rate</div>
+          <div class="metric-value">32.9%</div>
+          <div class="metric-trend">↑ 5% this month</div>
         </div>
-      </form>
-      <div id="emailResult" class="result"></div>
-    </div>
-
-    <div id="output" class="card"></div>
-
-    <div class="card">
-      <h2>🚀 Campaigns</h2>
-      <form id="campaignForm">
-        <div class="form-grid">
-          <div class="input-group">
-            <input type="text" id="campaignName" class="form-input" placeholder="Campaign Name" required />
-          </div>
-          <div class="input-group">
-            <select id="campaignVersion" class="form-input" required>
-              <option value="">Select Version</option>
-              <option value="a">Version A</option>
-              <option value="b">Version B</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <input type="text" id="campaignSubject" class="form-input" placeholder="Email Subject" required />
-          </div>
-          <div class="input-group">
-            <input type="text" id="campaignPreview" class="form-input" placeholder="Email Preview" required />
-          </div>
-          <div class="input-group">
-            <input type="date" id="campaignSendDate" class="form-input" required />
-          </div>
-          <button type="submit" id="campaignBtn" class="btn btn-submit" disabled>Add Campaign</button>
+        <div class="metric-card">
+          <div class="metric-label">Click Rate</div>
+          <div class="metric-value">4.7%</div>
+          <div class="metric-trend">↑ 2% this month</div>
         </div>
-      </form>
-      <div id="campaignResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>Send Email to User</h2>
+        <form id="emailForm">
+          <div class="form-grid">
+            <div class="input-group">
+              <select id="emailRecipient" class="form-input" required>
+                <option value="">Select Recipient</option>
+                <!-- Options will be populated dynamically -->
+              </select>
+            </div>
+            <div class="input-group">
+              <select id="emailCampaign" class="form-input" required>
+                <option value="">Select Campaign</option>
+                <!-- Options will be populated dynamically -->
+              </select>
+            </div>
+            <div class="input-group">
+              <select id="emailVersion" class="form-input" required>
+                <option value="">Select Version</option>
+                <option value="a">A</option>
+                <option value="b">B</option>
+              </select>
+            </div>
+            <button type="submit" id="emailBtn" class="btn btn-submit">Send Email</button>
+          </div>
+        </form>
+        <div id="emailResult" class="result"></div>
+      </div>
     </div>
 
-    <div id="campaignsOutput" class="card"></div>
+    <!-- Subscribers Tab -->
+    <div class="tab-content" id="subscribers">
+      <!-- <div class="card">
+        <h2>� Add New Subscriber</h2>
+      </div> -->
+      <div class="card">
+        <h2>Current Subscribers</h2>
+        <form id="subscribeForm">
+          <div class="form-grid">
+            <div class="input-group">
+              <input type="text" id="firstName" class="form-input" placeholder="First Name" required />
+            </div>
+            <div class="input-group">
+              <input type="email" id="emailAddress" class="form-input" placeholder="Email Address" required />
+            </div>
+            <button type="submit" id="subscribeBtn" class="btn btn-submit" disabled>Add Subscriber</button>
+          </div>
+        </form>
+        <!-- <div id="subscribeResult" class="result"></div> -->
+        <div class="table-container">
+          <table id="subscribersTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subscribed Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Will be populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campaigns Tab -->
+    <div class="tab-content" id="campaigns">
+      <div class="card">
+        <h2>Campaign List</h2>
+        <form id="campaignForm">
+          <div class="form-grid">
+            <div class="input-group">
+              <input type="text" id="campaignName" class="form-input" placeholder="Campaign Name" required />
+            </div>
+            <div class="input-group">
+              <select id="campaignVersion" class="form-input" required>
+                <option value="">Select Version</option>
+                <option value="a">Version A</option>
+                <option value="b">Version B</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <input type="text" id="campaignSubject" class="form-input" placeholder="Email Subject" required />
+            </div>
+            <div class="input-group">
+              <input type="text" id="campaignPreview" class="form-input" placeholder="Email Preview" required />
+            </div>
+            <div class="input-group">
+              <input type="date" id="campaignSendDate" class="form-input" required />
+            </div>
+            <button type="submit" id="campaignBtn" class="btn btn-submit" disabled>Add Campaign</button>
+          </div>
+        </form>
+        <div class="table-container">
+          <table id="campaignsTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Send Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Will be populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script>
-    const apiUrl = "https://beacon.isaacd2.com";
-    
-    // Enable email form if logged in
-    if (localStorage.getItem("id_token")) {
-      document.getElementById("emailBtn").disabled = false;
-    } else {
-      document.getElementById("emailBtn").disabled = true;
-    }
-
-    // Populate campaign dropdown for email form
-    function populateEmailCampaignDropdown(campaigns) {
-      const select = document.getElementById("emailCampaign");
-      while (select.options.length > 1) select.remove(1);
-      if (Array.isArray(campaigns)) {
-        const names = Array.from(new Set(campaigns.map(c => c.campaign).filter(Boolean)));
-        for (const name of names) {
-          const opt = document.createElement("option");
-          opt.value = name;
-          opt.textContent = name;
-          select.appendChild(opt);
-        }
-      }
-    }
-
-    // Populate recipient dropdown for email form
-    function populateEmailRecipientDropdown(subscribers) {
-      const select = document.getElementById("emailRecipient");
-      while (select.options.length > 1) select.remove(1);
-      if (Array.isArray(subscribers)) {
-        const emails = Array.from(new Set(subscribers.map(s => s.emailAddress).filter(Boolean)));
-        for (const email of emails) {
-          const opt = document.createElement("option");
-          opt.value = email;
-          opt.textContent = email;
-          select.appendChild(opt);
-        }
-      }
-    }
-
-    // Email form handler
-    document.getElementById("emailForm").onsubmit = async (e) => {
-      e.preventDefault();
-      const token = localStorage.getItem("id_token");
-      const recipient = document.getElementById("emailRecipient").value;
-      const campaign = document.getElementById("emailCampaign").value;
-      let version = document.getElementById("emailVersion").value;
-      // Only send 'a' or 'b'
-      version = version === 'a' ? 'a' : version === 'b' ? 'b' : '';
-
-      document.getElementById("emailResult").textContent = "Submitting...";
-      document.getElementById("emailResult").className = "result loading";
-      try {
-        const res = await fetch(apiUrl + "/email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            recipient,
-            campaign,
-            version
-          })
-        });
-        let msg = '';
-        try {
-          const data = await res.json();
-          if (data && typeof data === 'object') {
-            if (data.message) {
-              msg = data.message;
-            } else if (data.error) {
-              msg = data.error;
-            } else {
-              msg = 'Success.';
-            }
-          } else {
-            msg = String(data);
-          }
-        } catch (e) {
-          msg = await res.text();
-        }
-        document.getElementById("emailResult").textContent = msg;
-        document.getElementById("emailResult").className = res.ok ? "result success" : "result error";
-        document.getElementById("emailForm").reset();
-      } catch (err) {
-        document.getElementById("emailResult").textContent = "Error: " + err.message;
-        document.getElementById("emailResult").className = "result error";
-      }
-    };
-
-    // Step 1: Redirect to Cognito login
-    document.getElementById("loginBtn").onclick = () => {
-      const loginUrl = 'https://auth.isaacd2.com/login?client_id=7ftcq3nq571hpgt92jb1ihm0ch&response_type=token&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdev.isaacd2.com%2Fnewsletter';
-      window.location = loginUrl;
-    };
-
-    // Step 2: Parse token from URL hash after redirect
-    function parseHash() {
-      const hash = window.location.hash.substring(1);
-      const params = new URLSearchParams(hash);
-      return {
-        id_token: params.get("id_token"),
-        access_token: params.get("access_token"),
-        expires_in: params.get("expires_in"),
-        token_type: params.get("token_type")
-      };
-    }
-    
-    // Parse tokens from URL hash
-    const tokens = parseHash();
-
-    // If just logged in, store token and update UI
-    if (tokens.id_token) {
-      localStorage.setItem("id_token", tokens.id_token);
-      document.getElementById("output").innerHTML = '<div class="success">Logged in successfully.</div>';
-    }
-
-    // Enable subscribe/refresh if token is present
-    if (localStorage.getItem("id_token")) {
-      document.getElementById("subscribeBtn").disabled = false;
-      document.getElementById("refreshBtn").style.display = "inline-block";
-      callApi(); // Call API on page load
-    }
-
-    // Render subscribers as a modern table
-    function renderSubscribers(data) {
-      populateEmailRecipientDropdown(data);
-      if (!Array.isArray(data)) {
-        document.getElementById("output").innerHTML = '<div class="error">No subscriber data available.</div>';
-        return;
-      }
-      if (data.length === 0) {
-        document.getElementById("output").innerHTML = '<div class="loading">No subscribers found.</div>';
-        return;
-      }
-      let html = `
-        <h2>Subscribers <span class="section-title-count">(${data.length})</span></h2>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th>Email</th>
-                <th>Subscription Date</th>
-              </tr>
-            </thead>
-            <tbody>`;
-      for (const sub of data) {
-        html += `<tr>
-          <td>${sub.firstName || "—"}</td>
-          <td>${sub.emailAddress || "—"}</td>
-          <td>${sub.subscriptionDate ? new Date(sub.subscriptionDate).toLocaleDateString() : "—"}</td>
-        </tr>`;
-      }
-      html += `</tbody></table></div>`;
-      document.getElementById("output").innerHTML = html;
-    }
-
-    // Function to call the /subscribers API
-    async function callApi() {
-      const token = localStorage.getItem("id_token");
-      if (!token) return;
-      
-      document.getElementById("output").innerHTML = '<div class="loading">Loading subscribers...</div>';
-      
-      try {
-        const res = await fetch(apiUrl + "/subscribers", {
-          method: "GET",
-          headers: {
-            Authorization: token
-          }
-        });
-        const data = await res.json();
-        renderSubscribers(data);
-      } catch (err) {
-        document.getElementById("output").innerHTML = `<div class="error">Error: ${err.message}</div>`;
-      }
-    }
-
-    // Refresh button handler
-    document.getElementById("refreshBtn").onclick = callApi;
-
-    // Step 4: Subscribe form handler
-    document.getElementById("subscribeForm").onsubmit = async (e) => {
-      e.preventDefault();
-      const token = localStorage.getItem("id_token");
-      const name = document.getElementById("firstName").value;
-      const email = document.getElementById("emailAddress").value;
-      
-      document.getElementById("subscribeResult").textContent = "Submitting...";
-      document.getElementById("subscribeResult").className = "result loading";
-      try {
-        const res = await fetch(apiUrl + "/subscribe", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            emailAddress: email,
-            firstName: name
-          })
-        });
-        let msg = '';
-        try {
-          const data = await res.json();
-          if (data && typeof data === 'object') {
-            if (data.message) {
-              msg = data.message;
-            } else if (data.error) {
-              msg = data.error;
-            } else {
-              msg = 'Success.';
-            }
-          } else {
-            msg = String(data);
-          }
-        } catch (e) {
-          msg = await res.text();
-        }
-        document.getElementById("subscribeResult").textContent = msg;
-        document.getElementById("subscribeResult").className = res.ok ? "result success" : "result error";
-        document.getElementById("subscribeForm").reset();
-        callApi();
-      } catch (err) {
-        document.getElementById("subscribeResult").textContent = "Error: " + err.message;
-        document.getElementById("subscribeResult").className = "result error";
-      }
-    };
-
-    // Enable campaign form if logged in
-    if (localStorage.getItem("id_token")) {
-      document.getElementById("campaignBtn").disabled = false;
-      fetchCampaigns();
-    }
-
-    // Render campaigns as a modern table
-    function renderCampaigns(data) {
-      populateEmailCampaignDropdown(data);
-      if (!Array.isArray(data)) {
-        document.getElementById("campaignsOutput").innerHTML = '<div class="error">No campaign data available.</div>';
-        return;
-      }
-      if (data.length === 0) {
-        document.getElementById("campaignsOutput").innerHTML = '<div class="loading">No campaigns found.</div>';
-        return;
-      }
-      let html = `
-        <h2>Active Campaigns <span class="section-title-count">(${data.length})</span></h2>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Campaign</th>
-                <th>Version</th>
-                <th>Send Date</th>
-                <th>Subject</th>
-                <th>Preview</th>
-              </tr>
-            </thead>
-            <tbody>`;
-      for (const c of data) {
-        html += `<tr>
-          <td>${c.campaign || "—"}</td>
-          <td>${c.version ? c.version.toUpperCase() : "—"}</td>
-          <td>${c.sendDate ? new Date(c.sendDate).toLocaleDateString() : "—"}</td>
-          <td>${c.subject || "—"}</td>
-          <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.preview || "—"}</td>
-        </tr>`;
-      }
-      html += `</tbody></table></div>`;
-      document.getElementById("campaignsOutput").innerHTML = html;
-    }
-
-    // Fetch campaigns from API
-    async function fetchCampaigns() {
-      const token = localStorage.getItem("id_token");
-      if (!token) return;
-      
-      document.getElementById("campaignsOutput").innerHTML = '<div class="loading">Loading campaigns...</div>';
-      
-      try {
-        const res = await fetch(apiUrl + "/campaigns", {
-          method: "GET",
-          headers: {
-            Authorization: token
-          }
-        });
-        const data = await res.json();
-        renderCampaigns(data);
-      } catch (err) {
-        document.getElementById("campaignsOutput").innerHTML = `<div class="error">Error: ${err.message}</div>`;
-      }
-    }
-
-    // Campaign form handler
-    document.getElementById("campaignForm").onsubmit = async (e) => {
-      e.preventDefault();
-      const token = localStorage.getItem("id_token");
-      const campaign = document.getElementById("campaignName").value;
-      const version = document.getElementById("campaignVersion").value;
-      const subject = document.getElementById("campaignSubject").value;
-      const preview = document.getElementById("campaignPreview").value;
-      const sendDate = document.getElementById("campaignSendDate").value;
-      
-      document.getElementById("campaignResult").textContent = "Submitting...";
-      document.getElementById("campaignResult").className = "result loading";
-      try {
-        const res = await fetch(apiUrl + "/campaign", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token
-          },
-          body: JSON.stringify({
-            campaign,
-            version,
-            sendDate,
-            subject,
-            preview
-          })
-        });
-        let msg = '';
-        try {
-          const data = await res.json();
-          if (data && typeof data === 'object') {
-            if (data.message) {
-              msg = data.message;
-            } else if (data.error) {
-              msg = data.error;
-            } else {
-              msg = 'Success.';
-            }
-          } else {
-            msg = String(data);
-          }
-        } catch (e) {
-          msg = await res.text();
-        }
-        document.getElementById("campaignResult").textContent = msg;
-        document.getElementById("campaignResult").className = res.ok ? "result success" : "result error";
-        document.getElementById("campaignForm").reset();
-        fetchCampaigns();
-      } catch (err) {
-        document.getElementById("campaignResult").textContent = "Error: " + err.message;
-        document.getElementById("campaignResult").className = "result error";
-      }
-    };
-  </script>
+  <script src="main.js"></script>
 </body>
 </html>
