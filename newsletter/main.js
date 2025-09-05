@@ -275,41 +275,41 @@ document.addEventListener("DOMContentLoaded", function() {
     fetchCampaigns();
   }
 
-  // Render campaigns as a modern table
+  // Render Campaign Cards
+  function renderCampaignCards(campaigns) {
+    const container = document.getElementById('campaignsCardList');
+    container.className = 'campaign-card-list';
+    container.innerHTML = '';
+    // Sort campaigns so the most recent is last (reverse of previous)
+    const sortedCampaigns = [...campaigns].sort((a, b) => {
+      const aDate = a.sendDate ? new Date(a.sendDate) : new Date(0);
+      const bDate = b.sendDate ? new Date(b.sendDate) : new Date(0);
+      return bDate - aDate; // descending order
+    });
+    sortedCampaigns.forEach(campaign => {
+      const card = document.createElement('div');
+      card.className = 'campaign-card';
+      // Use helper functions to get status class and text
+      const statusClass = getStatusClass(campaign);
+      const statusText = getStatusText(campaign);
+      card.innerHTML = `
+        <div class="campaign-avatar"></div>
+        <div class="campaign-details">
+          <div class="campaign-subject">${campaign.subject}</div>
+          <div class="campaign-preview">${campaign.preview}</div>
+          <span class="campaign-status ${statusClass}">
+            ${statusText}
+          </span>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // Render campaigns as cards
   function renderCampaigns(data) {
     populateEmailCampaignDropdown(data);
-    const tbody = document.querySelector('#campaignsTable tbody');
-    const output = document.getElementById('campaignsOutput');
-    if (!tbody) {
-      // Table is missing, show a message in campaignsOutput
-      if (output) {
-        output.innerHTML = '<div class="error">Campaigns table is missing from the page.</div>';
-      }
-      return;
-    }
-    if (!Array.isArray(data)) {
-      tbody.innerHTML = '<tr><td colspan="5" class="error">No campaign data available.</td></tr>';
-      if (output) output.innerHTML = "";
-      return;
-    }
-    if (data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" class="loading">No campaigns found.</td></tr>';
-      if (output) output.innerHTML = "";
-      return;
-    }
-    tbody.innerHTML = data.map(c => `
-      <tr>
-        <td>${c.campaign || "—"}</td>
-        <td>${c.subject || "—"}</td>
-        <td>${c.sendDate ? new Date(c.sendDate).toLocaleDateString() : "—"}</td>
-        <td><span class="status-badge ${getStatusClass(c)}">${getStatusText(c)}</span></td>
-        <td>
-          <button class="btn btn-small" onclick="editCampaign('${c.campaign}')">Edit</button>
-          <button class="btn btn-small btn-danger" onclick="deleteCampaign('${c.campaign}')">Delete</button>
-        </td>
-      </tr>
-    `).join('');
-    if (output) output.innerHTML = "";
+    renderCampaignCards(data);
   }
 
   // Fetch campaigns from API
@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (!sendDate) return 'draft';
     if (sendDate < now) return 'sent';
-    if (sendDate > now) return 'scheduled';
+    if (sendDate > now) return 'ready';
     return 'active';
   }
 
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (!sendDate) return 'Draft';
     if (sendDate < now) return 'Sent';
-    if (sendDate > now) return 'Scheduled';
+    if (sendDate > now) return 'Ready';
     return 'Active';
   }
 

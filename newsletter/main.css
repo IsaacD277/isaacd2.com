@@ -458,3 +458,76 @@ tr:last-child td {
   background: #fef2f2;
   color: #991b1b;
 }
+
+/* ...existing code... */
+.campaign-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.campaign-card {
+  display: flex;
+  align-items: center;
+  background: #e0e0e0;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  gap: 24px;
+}
+
+.campaign-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #a77c7c;
+  flex-shrink: 0;
+}
+
+.campaign-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campaign-subject {
+  font-size: 1.4em;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.campaign-preview {
+  font-size: 1em;
+  color: #444;
+  margin-bottom: 0;
+}
+
+.campaign-status {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 12px;
+  font-size: 1em;
+  font-weight: 500;
+  margin-top: 8px;
+  width: fit-content;
+  min-width: 1px;
+  max-width: 100%;
+  text-align: left;
+}
+
+.campaign-status.sent {
+  background: #b8e3c1;
+  color: #3a6e4b;
+}
+
+.campaign-status.ready {
+  background: #bfcbe3;
+  color: #4b567e;
+}
+
+.campaign-status.draft {
+  background: #c9a7a7;
+  color: #6e3a3a;
+}
