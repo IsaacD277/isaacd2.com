@@ -26,6 +26,7 @@
     <h2>the newsletter about my tinkerings</h2>
     <form class="subscribe-form">
   <div class="subscribe-container">
+    <input type="hidden" name="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6IjM0YzhmNDc4LTAwOTEtNzBhOS02MDFhLThiNzU0MGNjODM2ZSJ9.CSQpPqgGA-DHOmn2hTJTdrfDNUT7AZ9lq2VWstpHt8A" />
     <input type="text" id="firstName" placeholder="First Name" autocomplete="given-name">
     <input type="email" id="emailAddress" placeholder="Email Address" required autocomplete="email">
     <button type="submit">Subscribe</button>
@@ -96,14 +97,15 @@
     forms.forEach((form, idx) => {
       const emailInput = form.querySelector('input[type="email"]');
       const firstNameInput = form.querySelector('input[type="text"]');
+      const token = form.querySelector('input[name="token"]').value;
       const trustText = trustTexts[idx];
 
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const email = emailInput.value;
+        const emailAddress = emailInput.value;
         const firstName = firstNameInput.value;
-        if (!email) return;
+        if (!emailAddress) return;
 
         const originalText = trustText.textContent;
         const originalColor = trustText.style.color || getComputedStyle(trustText).color;
@@ -131,17 +133,12 @@
         form.reset();
 
         try {
-          const response = await fetch("https://api.isaacd2.com/newsletter/subscribe", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ 
-              "emailAddress": email,
-              "firstName": firstName,}),
+          const response = await fetch(`https://api.dinod2.com/v0/signup?token=${token}&firstName=${encodeURIComponent(firstName)}&emailAddress=${encodeURIComponent(emailAddress)}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
           });
 
-          if (response.status !== 201) {
+          if (response.status !== 200) {
             clearTimeout(successTimer);
             clearTimeout(revertTimer);
 
